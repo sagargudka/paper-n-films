@@ -1,0 +1,31 @@
+<div class="exapmle-container">
+  <mat-card [ngStyle]="{ 'width': '100%' }">
+    <mat-card-header>
+      <mat-card-title>Add Stock</mat-card-title>
+      <mat-card-subtitle>Refilling stock of an existing item</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field style="width: 100%">
+        <mat-label>Item Name</mat-label>
+        <mat-select required placeholder="Item Name" [(ngModel)]="item.id">
+          <mat-option *ngFor="let itm of itemList" [value]="itm.id">
+            {{ itm.name }}
+          </mat-option>
+          <mat-hint align="end">Select Item</mat-hint>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%">
+        <mat-label>Quantity</mat-label>
+        <input matInput required type="number" placeholder="Quantity" [(ngModel)]="item.quantity" />
+
+        <mat-hint align="end">Add number of Stock</mat-hint>
+      </mat-form-field>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="accent" (click)="addStock()">Add</button>
+      <button mat-raised-button color="disabled" (click)="close()">Cancel</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,0 +1,73 @@
+<div class="exapmle-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ action }}</mat-card-title>
+      <mat-card-subtitle>{{ action }} in the Item Inventory</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field style="width: 100% ">
+        <mat-label>Item Name</mat-label>
+        <input matInput required placeholder="Item Name" [(ngModel)]="item.name" />
+      </mat-form-field>
+
+      <mat-form-field style="width: 100% ">
+        <mat-label>Description</mat-label>
+        <input matInput placeholder="Description" [(ngModel)]="item.description" />
+      </mat-form-field>
+
+      <mat-grid-list cols="3" rowHeight="2:1">
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Item Type</mat-label>
+            <mat-select matInput [(ngModel)]="item.type">
+              <mat-option *ngFor="let type of itemTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>HSN Code</mat-label>
+            <input matInput placeholder="HSN Code" [(ngModel)]="item.hsnCode" />
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Tax Slab</mat-label>
+            <mat-select matInput [(ngModel)]="item.taxSlab">
+              <mat-option *ngFor="let slab of taxSlabs" [value]="slab">
+                {{ slab }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Base Price</mat-label>
+            <input matInput type="number" placeholder="Base Price" [(ngModel)]="item.basePrice" />
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Quantity</mat-label>
+            <input matInput type="number" placeholder="Quantity" [(ngModel)]="item.quantity" />
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Minimum Stock To Keep</mat-label>
+            <input matInput type="number" placeholder="Minimum Stock To Keep" [(ngModel)]="item.thresholdUnit" />
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="accent" (click)="add()">Add</button>
+      <button mat-raised-button color="disabled" (click)="close()">Cancel</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

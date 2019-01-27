@@ -1,0 +1,108 @@
+<div class="exapmle-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Order Book</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-grid-list cols="4" rowHeight="2:1">
+        <mat-grid-tile>
+          <mat-form-field style="width: 100%">
+            <mat-label>Filter By Month, Year</mat-label>
+            <mat-select placeholder="Month, Year" (selectionChange)="filter()" [(value)]="selectedMonthYear">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let my of monthYearList" [value]="my">{{my}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100%">
+            <mat-label>Filter By Client</mat-label>
+            <mat-select placeholder="Client" (selectionChange)="filter()" [(value)]="selectedClient">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let cl of clientList" [value]="cl">{{cl}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100%">
+            <mat-label>Filter By Product</mat-label>
+            <mat-select placeholder="Product" (selectionChange)="filter()" [(value)]="selectedProduct">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let pr of productsList" [value]="pr">{{pr}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <table mat-table [dataSource]="orderDataSource" style="width:100%">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef style="width: 20%">ID</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.id}}
+          </td>
+          <td mat-footer-cell *matFooterCellDef> Total </td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%">Date</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.date}}
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%">Type</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.type}}
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="client">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%">Client</th>
+          <td mat-cell *matCellDef="let element">
+            {{element.client.name}}
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="items">
+          <th mat-header-cell *matHeaderCellDef style="width: 20%">Description</th>
+          <td mat-cell *matCellDef="let element">
+            <p *ngFor="let item of element.items">
+              <span *ngIf="item.quantity">{{item.name}} @ {{item.basePrice}}</span>
+            </p>
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="paymentLeft">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%; text-align: right">Payment Left</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            {{element.total.paymentLeft}}
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef style="width: 20%; text-align: right">Amount</th>
+          <td mat-cell *matCellDef="let element">
+            <p *ngFor="let item of element.items" style="text-align: right">
+              <span *ngIf="item.quantity">{{item.amount.grossAmount}}</span>
+            </p>
+          </td>
+          <td mat-footer-cell *matFooterCellDef style="text-align: right">{{getTotal()}}</td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="orderColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: orderColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="orderColumns"></tr>
+      </table>
+      <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+
+    </mat-card-content>
+  </mat-card>
+</div>

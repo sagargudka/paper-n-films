@@ -1,0 +1,304 @@
+<div class="exapmle-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ order.type.toUpperCase() }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-grid-list cols="5" rowHeight="3:1">
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Client Name</mat-label>
+            <input matInput required placeholder="Client Name" [matAutocomplete]="auto" [formControl]="clientCtrl" />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)='clientChanged($event.option.value)'>
+              <mat-option *ngFor="let client of filteredClientList | async" [value]="client.name">
+                <span>{{client.name}}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Address</mat-label>
+            <mat-select placeholder="Address" (selectionChange)="addressChanged(selectedAddressLine)" [(value)]="selectedAddressLine">
+              <mat-option *ngFor="let address of addressList" [value]="address.addressLine">
+                {{address.addressLine}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>State</mat-label>
+            <input matInput disabled required placeholder="State" [value]="selectedAddressState" />
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>GST #</mat-label>
+            <input matInput disabled required placeholder="GST #" [value]="order.client.gstNumber" />
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Contact #</mat-label>
+            <input matInput disabled required placeholder="Contact #" [value]="order.client.phoneNumber" />
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+
+      <mat-divider></mat-divider>
+
+      <table mat-table *ngIf="(order.type === 'bill')" [dataSource]="itemsDataSource" style="width:100%">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef style="width: 20%">Name</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-select placeholder="Item Name" [(value)]="element.name" (selectionChange)="onItemSelect(element)">
+              <mat-option *ngFor="let item of apiItemList" [value]="item.name">
+                {{item.name}}
+              </mat-option>
+            </mat-select>
+            <p style="font-size: 8px">{{ element.description}}</p>
+          </td>
+          <td mat-footer-cell *matFooterCellDef>
+            <p>Transportation Charges</p>
+            <p>Rounded By</p>
+            <p>
+              <strong>Total</strong>
+            </p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hsnCode">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%">HSN Code</th>
+          <td mat-cell *matCellDef="let element"> {{element.hsnCode}} </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="unit">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%"> Unit </th>
+          <td mat-cell *matCellDef="let element"> {{element.unit}} </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="availableQuantity">
+          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right">Stock</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            {{element.availableQuantity}}
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="basePrice">
+          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right"> Rate</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            <input matInput required type="number" [ngModel]="element.basePrice" (ngModelChange)="itemChanged(element, element.quantity, $event)"
+            />
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="x">
+          <th mat-header-cell *matHeaderCellDef style="width: 3%; text-align: center"></th>
+          <td mat-cell *matCellDef="let element" style="text-align:center">
+            x
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right">Qty</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            <input matInput required type="number" placeholder="Qty" [ngModel]="element.quantity" (ngModelChange)="itemChanged(element, $event, element.basePrice)"
+            />
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="netAmount">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%; text-align: right">Net Amt</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            {{element.amount.netAmount}}
+          </td>
+          <td mat-footer-cell *matFooterCellDef style="text-align: right">
+            <p>&#160;</p>
+            <p>&#160;</p>
+            <p>{{order.total.netAmount}}</p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cgst">
+          <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right">CGST</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            ({{ element.amount.cgst.percent }} %)
+            <br/> {{ element.amount.cgst.value }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef style="text-align: right">
+            <p>&#160;</p>
+            <p>&#160;</p>
+            <p>{{order.total.cgst}}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="sgst">
+          <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right">SGST</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            ({{ element.amount.sgst.percent }} %)
+            <br/> {{ element.amount.sgst.value }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef style="text-align: right">
+            <p>&#160;</p>
+            <p>&#160;</p>
+            <p>{{order.total.sgst}}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="igst">
+          <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right">IGST</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            ({{ element.amount.igst.percent }} %)
+            <br/> {{ element.amount.igst.value }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef style="text-align: right">
+            <p>&#160;</p>
+            <p>&#160;</p>
+            <p>{{order.total.igst }}</p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef style="width: 11%; text-align: right">Total</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            <b>{{ element.amount.grossAmount }}</b>
+          </td>
+          <td mat-footer-cell *matFooterCellDef style="text-align: right">
+            <p style="margin-right: -15px">
+              <input matInput required type="number" [ngModel]="order.total.transportCharges" (ngModelChange)="calculateTotal($event, order.total.paymentGiven)"
+              />
+            </p>
+            <p>{{order.total.roundedBy}}</p>
+            <p>
+              <b>{{order.total.grossAmount}}</b>
+            </p>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="itemColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: itemColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="itemColumns"></tr>
+      </table>
+
+      <table mat-table *ngIf="(order.type === 'challan')" [dataSource]="itemsDataSource" style="width:100%">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef style="width: 20%">Name</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-select placeholder="Item Name" [(value)]="element.name" (selectionChange)="onItemSelect(element)">
+              <mat-option *ngFor="let item of apiItemList" [value]="item.name">
+                {{item.name}}
+              </mat-option>
+            </mat-select>
+            <p style="font-size: 8px">{{ element.description}}</p>
+          </td>
+          <td mat-footer-cell *matFooterCellDef>
+            <p>Rounded By</p>
+            <p>
+              <b>Total</b>
+            </p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hsnCode">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%">HSN Code</th>
+          <td mat-cell *matCellDef="let element"> {{element.hsnCode}} </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="unit">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%"> Unit </th>
+          <td mat-cell *matCellDef="let element"> {{element.unit}} </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="availableQuantity">
+          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right">Stock</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            {{element.availableQuantity}}
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="basePrice">
+          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right"> Rate</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            <input matInput required type="number" [ngModel]="element.basePrice" (ngModelChange)="itemChanged(element, element.quantity, $event)"
+            />
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="x">
+          <th mat-header-cell *matHeaderCellDef style="width: 3%; text-align: center"></th>
+          <td mat-cell *matCellDef="let element" style="text-align:center">
+            x
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right">Qty</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            <input matInput type="number" required placeholder="Qty" [ngModel]="element.quantity" (ngModelChange)="itemChanged(element, $event, element.basePrice)"
+            />
+          </td>
+          <td mat-footer-cell *matFooterCellDef> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef style="width: 11%; text-align: right">Total</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right">
+            <b>{{ element.amount.grossAmount }}</b>
+          </td>
+          <td mat-footer-cell *matFooterCellDef style="text-align: right">
+            <p>{{order.total.roundedBy}}</p>
+            <p>
+              <b>{{order.total.grossAmount}}</b>
+            </p>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="itemChallanColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: itemChallanColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="itemChallanColumns"></tr>
+      </table>
+
+      <mat-grid-list cols="2" rowHeight="7:1">
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Payment Given</mat-label>
+            <input matInput required type="number" placeholder="Payment Given" [ngModel]="order.total.paymentGiven" (ngModelChange)="calculateTotal(order.total.transportCharges, $event)"
+            />
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Payment Left</mat-label>
+            <input matInput disabled required placeholder="Payment Left" [value]="order.total.paymentLeft" />
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+
+      <ul style="list-style-type: none; color: red">
+        <li *ngFor="let message of errorMessage">
+          <mat-icon>error</mat-icon> {{message}}</li>
+      </ul>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="accent" (click)="createBill()">Generate</button>
+      <button mat-raised-button color="disabled" (click)="close()">Cancel</button>
+
+    </mat-card-actions>
+  </mat-card>
+</div>

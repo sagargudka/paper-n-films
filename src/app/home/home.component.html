@@ -1,0 +1,24 @@
+<app-grid></app-grid>
+
+<mat-grid-list cols="4" rowHeight="2:1">
+  <mat-grid-tile>
+    <button mat-raised-button [ngStyle]="{'background-color': '#cc1162', 'color': 'white'}" (click)="createBill()">
+      <mat-icon>receipt</mat-icon> Create Bill
+    </button>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <button mat-raised-button [ngStyle]="{'background-color': '#cc1162', 'color': 'white'}" (click)="createChallan()">
+      <mat-icon>receipt</mat-icon> Create Challan
+    </button>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <button mat-raised-button [ngStyle]="{'background-color': '#cc1162', 'color': 'white'}" (click)="openAddStockDialog()">
+      <mat-icon>add</mat-icon> Add Stock
+    </button>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <button mat-raised-button [ngStyle]="{'background-color': '#cc1162', 'color': 'white'}" (click)="openOrderBook()">
+      <mat-icon>list_alt</mat-icon> Order Book
+    </button>
+  </mat-grid-tile>
+</mat-grid-list>

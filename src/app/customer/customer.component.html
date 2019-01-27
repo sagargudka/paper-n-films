@@ -1,0 +1,43 @@
+<div class="exapmle-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Customer</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field style="width: 100% ">
+        <mat-label>Client Name</mat-label>
+        <input matInput required placeholder="Client Name" [(ngModel)]="client.name" />
+      </mat-form-field>
+      <table mat-table [dataSource]="client.address" style="width:100%">
+        <ng-container matColumnDef="addressLine">
+          <th mat-header-cell *matHeaderCellDef style="width: 80%">Address Line</th>
+          <td mat-cell *matCellDef="let element">
+            <input matInput required placeholder="Address Line" [(ngModel)]="element.addressLine" />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="state">
+          <th mat-header-cell *matHeaderCellDef style="width: 20%">State</th>
+          <td mat-cell *matCellDef="let element">
+            <input matInput required placeholder="State" [(ngModel)]="element.state" />
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="addressColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: addressColumns;"></tr>
+      </table>
+      <mat-form-field style="width: 100% ">
+        <mat-label>GST #</mat-label>
+        <input matInput required placeholder="GST #" [(ngModel)]="client.gstNumber" />
+      </mat-form-field>
+      <mat-form-field style="width: 100% ">
+        <mat-label>Contact</mat-label>
+        <input matInput required placeholder="Contact #" [(ngModel)]="client.phoneNumber" />
+      </mat-form-field>
+      <mat-card-actions>
+        <button mat-raised-button color="accent" (click)="createCustomer()">Generate</button>
+        <button mat-raised-button color="disabled" (click)="close()">Cancel</button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</div>

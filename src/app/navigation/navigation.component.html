@@ -1,0 +1,36 @@
+<!-- Image and text -->
+<nav class="navbar navbar-expand navbar-dark" style=" background-color: #cc1162 ">
+  <a class="navbar-brand " href="# ">
+    <img src="../assets/pnf-logo.png " width="80 " height="30 " class="d-inline-block align-top " alt=" "> Paper N Films
+  </a>
+  <button class="navbar-toggler " type="button " data-toggle="collapse " data-target="#navbarText " aria-controls="navbarText "
+    aria-expanded="false " aria-label="Toggle navigation ">
+    <span class="navbar-toggler-icon "></span>
+  </button>
+  <div class="collapse navbar-collapse " id="navbarText ">
+    <ul class="navbar-nav mr-auto " style="font-size: 1em">
+      <li class="nav-item" matTooltip="Customer Management">
+        <button class="nav-link" style="height: 45px; font-size: 1em" mat-button [matMenuTriggerFor]="menuCustomer">
+          <mat-icon>group</mat-icon>Customers
+        </button>
+        <mat-menu #menuCustomer="matMenu">
+          <button mat-menu-item (click)="addCustomerDialog()">
+            <mat-icon>add</mat-icon> New Customer</button>
+          <button mat-menu-item>
+            <mat-icon>edit</mat-icon> Edit Customer</button>
+        </mat-menu>
+      </li>
+      <li class="nav-item" matTooltip="Inventory Management">
+        <button class="nav-link" style="height: 45px; font-size: 1em" mat-button [matMenuTriggerFor]="menu">
+          <mat-icon>domain</mat-icon>Inventory
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="addItemDialog()">
+            <mat-icon>add</mat-icon> New Item</button>
+          <button mat-menu-item>
+            <mat-icon>edit</mat-icon> Edit Item</button>
+        </mat-menu>
+      </li>
+    </ul>
+  </div>
+</nav>
