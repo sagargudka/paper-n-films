@@ -11,7 +11,7 @@
       </mat-form-field>
       <table mat-table [dataSource]="client.address" style="width:100%">
         <ng-container matColumnDef="addressLine">
-          <th mat-header-cell *matHeaderCellDef style="width: 80%">Address Line</th>
+          <th mat-header-cell *matHeaderCellDef style="width: 40%">Address Line</th>
           <td mat-cell *matCellDef="let element">
             <input matInput required placeholder="Address Line" [(ngModel)]="element.addressLine" />
           </td>
@@ -20,6 +20,20 @@
           <th mat-header-cell *matHeaderCellDef style="width: 20%">State</th>
           <td mat-cell *matCellDef="let element">
             <input matInput required placeholder="State" [(ngModel)]="element.state" />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="city">
+          <th mat-header-cell *matHeaderCellDef style="width: 20%">State</th>
+          <td mat-cell *matCellDef="let element">
+            <input matInput required placeholder="City" [(ngModel)]="element.city" />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pincode">
+          <th mat-header-cell *matHeaderCellDef style="width: 20%">Pin Code</th>
+          <td mat-cell *matCellDef="let element">
+            <input matInput required placeholder="Pin Code" [(ngModel)]="element.pincode" />
           </td>
         </ng-container>
 

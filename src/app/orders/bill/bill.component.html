@@ -5,7 +5,7 @@
     </mat-card-header>
 
     <mat-card-content>
-      <mat-grid-list cols="5" rowHeight="3:1">
+      <mat-grid-list cols="7" rowHeight="3:1">
         <mat-grid-tile>
           <mat-form-field style="width: 100% ">
             <mat-label>Client Name</mat-label>
@@ -31,6 +31,18 @@
           <mat-form-field style="width: 100% ">
             <mat-label>State</mat-label>
             <input matInput disabled required placeholder="State" [value]="selectedAddressState" />
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>City</mat-label>
+            <input matInput disabled required placeholder="City" [value]="selectedAddressCity" />
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Pin Code</mat-label>
+            <input matInput disabled required placeholder="Pin Code" [value]="selectedAddressPincode" />
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -93,8 +105,7 @@
         <ng-container matColumnDef="basePrice">
           <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right"> Rate</th>
           <td mat-cell *matCellDef="let element" style="text-align: right">
-            <input matInput required type="number" [ngModel]="element.basePrice" (ngModelChange)="itemChanged(element, element.quantity, $event)"
-            />
+            <input matInput required type="number" [ngModel]="element.basePrice" (ngModelChange)="itemChanged(element, element.quantity, $event)" />
           </td>
           <td mat-footer-cell *matFooterCellDef> </td>
         </ng-container>
@@ -111,8 +122,7 @@
         <ng-container matColumnDef="quantity">
           <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right">Qty</th>
           <td mat-cell *matCellDef="let element" style="text-align: right">
-            <input matInput required type="number" placeholder="Qty" [ngModel]="element.quantity" (ngModelChange)="itemChanged(element, $event, element.basePrice)"
-            />
+            <input matInput required type="number" placeholder="Qty" [ngModel]="element.quantity" (ngModelChange)="itemChanged(element, $event, element.basePrice)" />
           </td>
           <td mat-footer-cell *matFooterCellDef> </td>
         </ng-container>
@@ -133,7 +143,7 @@
           <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right">CGST</th>
           <td mat-cell *matCellDef="let element" style="text-align: right">
             ({{ element.amount.cgst.percent }} %)
-            <br/> {{ element.amount.cgst.value }}
+            <br /> {{ element.amount.cgst.value }}
           </td>
           <td mat-footer-cell *matFooterCellDef style="text-align: right">
             <p>&#160;</p>
@@ -145,7 +155,7 @@
           <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right">SGST</th>
           <td mat-cell *matCellDef="let element" style="text-align: right">
             ({{ element.amount.sgst.percent }} %)
-            <br/> {{ element.amount.sgst.value }}
+            <br /> {{ element.amount.sgst.value }}
           </td>
           <td mat-footer-cell *matFooterCellDef style="text-align: right">
             <p>&#160;</p>
@@ -157,7 +167,7 @@
           <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right">IGST</th>
           <td mat-cell *matCellDef="let element" style="text-align: right">
             ({{ element.amount.igst.percent }} %)
-            <br/> {{ element.amount.igst.value }}
+            <br /> {{ element.amount.igst.value }}
           </td>
           <td mat-footer-cell *matFooterCellDef style="text-align: right">
             <p>&#160;</p>
@@ -173,8 +183,7 @@
           </td>
           <td mat-footer-cell *matFooterCellDef style="text-align: right">
             <p style="margin-right: -15px">
-              <input matInput required type="number" [ngModel]="order.total.transportCharges" (ngModelChange)="calculateTotal($event, order.total.paymentGiven)"
-              />
+              <input matInput required type="number" [ngModel]="order.total.transportCharges" (ngModelChange)="calculateTotal($event, order.total.paymentGiven)" />
             </p>
             <p>{{order.total.roundedBy}}</p>
             <p>
@@ -230,8 +239,7 @@
         <ng-container matColumnDef="basePrice">
           <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right"> Rate</th>
           <td mat-cell *matCellDef="let element" style="text-align: right">
-            <input matInput required type="number" [ngModel]="element.basePrice" (ngModelChange)="itemChanged(element, element.quantity, $event)"
-            />
+            <input matInput required type="number" [ngModel]="element.basePrice" (ngModelChange)="itemChanged(element, element.quantity, $event)" />
           </td>
           <td mat-footer-cell *matFooterCellDef> </td>
         </ng-container>
@@ -248,8 +256,7 @@
         <ng-container matColumnDef="quantity">
           <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right">Qty</th>
           <td mat-cell *matCellDef="let element" style="text-align: right">
-            <input matInput type="number" required placeholder="Qty" [ngModel]="element.quantity" (ngModelChange)="itemChanged(element, $event, element.basePrice)"
-            />
+            <input matInput type="number" required placeholder="Qty" [ngModel]="element.quantity" (ngModelChange)="itemChanged(element, $event, element.basePrice)" />
           </td>
           <td mat-footer-cell *matFooterCellDef> </td>
         </ng-container>
@@ -276,8 +283,8 @@
         <mat-grid-tile>
           <mat-form-field style="width: 100% ">
             <mat-label>Payment Given</mat-label>
-            <input matInput required type="number" placeholder="Payment Given" [ngModel]="order.total.paymentGiven" (ngModelChange)="calculateTotal(order.total.transportCharges, $event)"
-            />
+            <input matInput required type="number" placeholder="Payment Given" [ngModel]="order.total.paymentGiven"
+              (ngModelChange)="calculateTotal(order.total.transportCharges, $event)" />
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -291,7 +298,8 @@
 
       <ul style="list-style-type: none; color: red">
         <li *ngFor="let message of errorMessage">
-          <mat-icon>error</mat-icon> {{message}}</li>
+          <mat-icon>error</mat-icon> {{message}}
+        </li>
       </ul>
 
     </mat-card-content>

@@ -53,12 +53,14 @@ export class BillComponent implements OnInit {
     }
   ];
 
-  addressList: Array<Address> = [{ state: '', addressLine: '' }];
+  addressList: Array<Address> = [{ state: '', addressLine: '', city: '', pincode: '' }];
   selectedAddressLine = '';
   selectedAddressState = '';
+  selectedAddressCity = '';
+  selectedAddressPincode = '';
   selectedItemQuantity = 0;
 
-  errorMessage: '';
+  errorMessage: string[] = [];
   itemColumns = [
     'name',
     'hsnCode',
@@ -101,11 +103,15 @@ export class BillComponent implements OnInit {
       address: [
         {
           addressLine: '',
-          state: ''
+          state: '',
+          city: '',
+          pincode: ''
         },
         {
           addressLine: '',
-          state: ''
+          state: '',
+          city: '',
+          pincode: ''
         }
       ],
       gstNumber: '',
@@ -159,8 +165,14 @@ export class BillComponent implements OnInit {
     this.addressList = clt.address;
     this.order.client.address[0].addressLine = this.addressList[0].addressLine;
     this.order.client.address[0].state = this.addressList[0].state;
+    this.order.client.address[0].city = this.addressList[0].city || '';
+    this.order.client.address[0].pincode = this.addressList[0].pincode || '';
+
     this.selectedAddressLine = this.addressList[0].addressLine;
     this.selectedAddressState = this.addressList[0].state;
+    this.selectedAddressCity = this.addressList[0].city || '';
+    this.selectedAddressPincode = this.addressList[0].pincode || '';
+
     this.order.client.gstNumber = clt.gstNumber;
     this.order.client.id = clt.id;
     this.order.client.name = clt.name;
@@ -168,10 +180,14 @@ export class BillComponent implements OnInit {
   }
 
   addressChanged(selectedAddressLine) {
-    this.selectedAddressState = _.find(
+    let newAdd = _.find(
       this.addressList,
       address => address.addressLine === selectedAddressLine
-    ).state;
+    );
+
+    this.selectedAddressState = newAdd.state;
+    this.selectedAddressCity = newAdd.city || '';
+    this.selectedAddressPincode = newAdd.pincode || '';
 
     // Update the item gst values as well.
     _.each(this.itemsDataSource, item => {
@@ -180,7 +196,7 @@ export class BillComponent implements OnInit {
         item.basePrice,
         item.quantity,
         this.selectedAddressState.toUpperCase() !==
-          this.vendorState.toUpperCase(),
+        this.vendorState.toUpperCase(),
         this.order.type === 'bill'
       );
     });
@@ -200,7 +216,7 @@ export class BillComponent implements OnInit {
       element.basePrice,
       element.quantity,
       this.selectedAddressState.toUpperCase() !==
-        this.vendorState.toUpperCase(),
+      this.vendorState.toUpperCase(),
       this.order.type === 'bill'
     );
     this.calculateTotal(
@@ -226,7 +242,7 @@ export class BillComponent implements OnInit {
       item.basePrice,
       item.quantity,
       this.selectedAddressState.toUpperCase() !==
-        this.vendorState.toUpperCase(),
+      this.vendorState.toUpperCase(),
       this.order.type === 'bill'
     );
     this.calculateTotal(
@@ -269,11 +285,18 @@ export class BillComponent implements OnInit {
   }
 
   createBill() {
+    this.errorMessage = [];
+    if (!this.order.client.id || !this.order.items.length) {
+      this.errorMessage = ['Please complete all the details'];
+    }
     const mom = moment();
     this.order.id = mom.format('YYYYMMDDhhmmss');
     this.order.date = mom.format('DD/MM/YYYY');
     this.order.client.address[1].addressLine = this.selectedAddressLine;
     this.order.client.address[1].state = this.selectedAddressState;
+    this.order.client.address[1].city = this.selectedAddressCity || '';
+    this.order.client.address[1].pincode = this.selectedAddressPincode || '';
+
     this.order.items = this.itemsDataSource;
 
     const index = _.findIndex(this.order.items, item => item.quantity === 0);

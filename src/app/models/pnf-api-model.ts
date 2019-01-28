@@ -121,6 +121,8 @@ export interface Order {
 
 export interface Address {
   addressLine: string;
+  pincode: string;
+  city: string;
   state: string;
 }
 

@@ -14,22 +14,22 @@ export class CustomerComponent implements OnInit {
     name: '',
     gstNumber: '',
     address: [
-      { addressLine: '', state: '' },
-      { addressLine: '', state: '' },
-      { addressLine: '', state: '' }
+      { addressLine: '', state: '', city: '', pincode: '' },
+      { addressLine: '', state: '', city: '', pincode: '' },
+      { addressLine: '', state: '', city: '', pincode: '' },
     ],
     phoneNumber: ''
   };
 
-  addressColumns = ['addressLine', 'state'];
+  addressColumns = ['addressLine', 'state', 'city', 'pincode'];
 
   constructor(
     private pnfApiService: PnfApiService,
     public dialogRef: MatDialogRef<CustomerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id?: string }
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   createCustomer() {
     console.log(this.client);
