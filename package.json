@@ -27,6 +27,7 @@
     "buffer": "^5.1.0",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
+    "jquery": "^3.3.1",
     "ng-bootstrap": "^1.6.3",
     "rxjs": "^6.0.0",
     "save-as": "^0.1.8",

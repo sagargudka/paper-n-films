@@ -52,4 +52,4 @@ import { OrderbookComponent } from './orders/orderbook/orderbook.component';
   providers: [HttpClient, PnfApiService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
