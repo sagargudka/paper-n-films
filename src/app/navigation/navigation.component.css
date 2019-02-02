@@ -1,0 +1,13 @@
+.profile {
+  color: white;
+  font-size: 0.8rem;
+}
+
+.img-circle {
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.pic {
+  width: 50px;
+}

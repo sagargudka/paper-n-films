@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { ItemComponent } from '../inventory/item/item.component';
 import { CustomerComponent } from '../customer/customer.component';
+import { Authentication } from '../providers/authentication.provider';
+
 
 @Component({
   selector: 'app-navigation',
@@ -9,9 +11,37 @@ import { CustomerComponent } from '../customer/customer.component';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
-  constructor(public dialog: MatDialog, public snackBar: MatSnackBar) {}
+  isAuthenticated;
+  userImage;
+  userName;
+  constructor(
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar,
+    private authentication: Authentication
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authentication.isAuthenticated
+      .subscribe(res => {
+        this.isAuthenticated = res;
+        console.log(this.isAuthenticated, 'updated for nav bar');
+        this.getUserDetails();
+      })
+  }
+
+  login() {
+    this.authentication.authenticate();
+  }
+
+  logout() {
+    this.authentication.logout();
+    this.getUserDetails();
+  }
+
+  getUserDetails() {
+    this.userImage = this.authentication.getImage();
+    this.userName = this.authentication.getName();
+  }
 
   addItemDialog(): void {
     let dialogRef = this.dialog.open(ItemComponent, {

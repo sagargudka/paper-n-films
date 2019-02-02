@@ -287,10 +287,7 @@ export class BillComponent implements OnInit {
 
   createBill() {
     this.errorMessage = [];
-    if (!this.order.client.id || !this.order.items.length) {
-      this.errorMessage = ['Please complete all the details'];
-      return;
-    }
+
     const mom = moment();
     this.order.id = mom.format('YYYYMMDDhhmmss');
     this.order.date = mom.format('DD/MM/YYYY');
@@ -304,6 +301,11 @@ export class BillComponent implements OnInit {
     const index = _.findIndex(this.order.items, item => item.quantity === 0);
     if (index > -1) {
       this.order.items.splice(index, this.order.items.length - index);
+    }
+
+    if (!this.order.client.id || !this.order.items.length) {
+      this.errorMessage = ['Please complete all the details'];
+      return;
     }
 
     this.pnfApiService.createBill(this.order).subscribe(res => {

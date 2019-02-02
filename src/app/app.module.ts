@@ -18,6 +18,26 @@ import { BillComponent } from './orders/bill/bill.component';
 import { AppComponent } from './app.component';
 import { CustomerComponent } from './customer/customer.component';
 import { OrderbookComponent } from './orders/orderbook/orderbook.component';
+import { Authentication } from './providers/authentication.provider'
+
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  GoogleLoginProvider,
+} from "angular-6-social-login"
+
+
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+    [
+      {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider("651852546381-t47516nj97od6f2rahmcn7bpbnh09m73.apps.googleusercontent.com")
+      },
+    ]
+  );
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -29,7 +49,7 @@ import { OrderbookComponent } from './orders/orderbook/orderbook.component';
     ItemComponent,
     BillComponent,
     CustomerComponent,
-    OrderbookComponent
+    OrderbookComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +60,8 @@ import { OrderbookComponent } from './orders/orderbook/orderbook.component';
     ReactiveFormsModule,
     MyOwnCustomMaterialModule,
     NgbModule.forRoot(),
-    NgbModule
+    NgbModule,
+    SocialLoginModule
   ],
   entryComponents: [
     AddStockComponent,
@@ -49,7 +70,10 @@ import { OrderbookComponent } from './orders/orderbook/orderbook.component';
     CustomerComponent,
     OrderbookComponent
   ],
-  providers: [HttpClient, PnfApiService],
+  providers: [HttpClient, PnfApiService, Authentication, {
+    provide: AuthServiceConfig,
+    useFactory: getAuthServiceConfigs
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

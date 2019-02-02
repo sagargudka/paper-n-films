@@ -3,6 +3,7 @@ import { AddStockComponent } from '../inventory/item/item.component';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { BillComponent } from '../orders/bill/bill.component';
 import { OrderbookComponent } from '../orders/orderbook/orderbook.component';
+import { Authentication } from '../providers/authentication.provider';
 
 @Component({
   selector: 'app-home',
@@ -10,9 +11,16 @@ import { OrderbookComponent } from '../orders/orderbook/orderbook.component';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  constructor(public dialog: MatDialog, public snackBar: MatSnackBar) {}
+  isAuthenticated: Boolean = false;
+  constructor(public dialog: MatDialog, public snackBar: MatSnackBar, private authenication: Authentication) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authenication.isAuthenticated
+      .subscribe(res => {
+        this.isAuthenticated = res;
+        console.log(this.isAuthenticated, 'updated for home');
+      })
+  }
 
   openAddStockDialog(): void {
     let dialogRef = this.dialog.open(AddStockComponent, {

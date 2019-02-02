@@ -3,13 +3,13 @@
   <a class="navbar-brand" href="#">
     <img src="assets/pnf-logo.png" width="80" height="30" class="d-inline-block align-top" alt=""> Paper N Films
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-    aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" (click)="getUserDetails()" data-toggle="collapse" data-target="#navbarText"
+    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto" style="font-size: 1em">
-      <li class="nav-item dropdown" matTooltip="Customer Management">
+      <li *ngIf="isAuthenticated" class="nav-item dropdown" matTooltip="Customer Management">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
           <mat-icon>group</mat-icon>Customers
@@ -23,7 +23,7 @@
           </a>
         </div>
       </li>
-      <li class="nav-item dropdown" matTooltip="Inventory Management">
+      <li *ngIf="isAuthenticated" class="nav-item dropdown" matTooltip="Inventory Management">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
           <mat-icon>domain</mat-icon> Inventory
@@ -39,5 +39,27 @@
         </div>
       </li>
     </ul>
+    <div class="pull-right">
+      <ul class="nav pull-right">
+        <li>
+          <img class="pic img-circle" [src]="userImage" alt="W G">
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle profile" data-toggle="dropdown">
+            Welcome, <br />
+            {{ userName }}
+          </a>
+          <ul class="dropdown-menu">
+            <li class="divider"></li>
+            <li *ngIf="isAuthenticated" (click)="logout()">
+              <mat-icon>power_settings_new</mat-icon> Logout
+            </li>
+            <li *ngIf="!isAuthenticated" (click)="login()">
+              <mat-icon>power_settings_new</mat-icon> Login
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
