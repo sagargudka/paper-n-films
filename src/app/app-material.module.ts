@@ -15,7 +15,8 @@ import {
   MatMenuModule,
   MatSlideToggleModule,
   MatAutocompleteModule,
-  MatDividerModule
+  MatDividerModule,
+  MatExpansionModule,
 } from "@angular/material";
 import { NgModule } from "@angular/core";
 
@@ -37,7 +38,8 @@ import { NgModule } from "@angular/core";
     MatMenuModule,
     MatSlideToggleModule,
     MatAutocompleteModule,
-    MatDividerModule
+    MatDividerModule,
+    MatExpansionModule,
   ],
   exports: [
     MatButtonModule,
@@ -56,7 +58,8 @@ import { NgModule } from "@angular/core";
     MatMenuModule,
     MatSlideToggleModule,
     MatAutocompleteModule,
-    MatDividerModule
+    MatDividerModule,
+    MatExpansionModule,
   ]
 })
-export class MyOwnCustomMaterialModule {}
+export class MyOwnCustomMaterialModule { }

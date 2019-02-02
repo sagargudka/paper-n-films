@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { PnfApiService } from '../../service/pnf-api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {
@@ -19,7 +19,8 @@ import { Buffer } from 'buffer';
 @Component({
   selector: 'app-bill',
   templateUrl: './bill.component.html',
-  styleUrls: ['./bill.component.css']
+  styleUrls: ['./bill.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class BillComponent implements OnInit {
   clientCtrl: any;
@@ -288,6 +289,7 @@ export class BillComponent implements OnInit {
     this.errorMessage = [];
     if (!this.order.client.id || !this.order.items.length) {
       this.errorMessage = ['Please complete all the details'];
+      return;
     }
     const mom = moment();
     this.order.id = mom.format('YYYYMMDDhhmmss');

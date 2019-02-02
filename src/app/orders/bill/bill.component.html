@@ -1,12 +1,17 @@
 <div class="exapmle-container">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{ order.type.toUpperCase() }}</mat-card-title>
-    </mat-card-header>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ order.type.toUpperCase() }}
+        </mat-panel-title>
+        <mat-panel-description>
+          Client Details
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-    <mat-card-content>
-      <mat-grid-list cols="7" rowHeight="3:1">
-        <mat-grid-tile>
+      <div class="row">
+        <div class="col-sm-12 col-md-4 col-lg-4">
           <mat-form-field style="width: 100% ">
             <mat-label>Client Name</mat-label>
             <input matInput required placeholder="Client Name" [matAutocomplete]="auto" [formControl]="clientCtrl" />
@@ -16,8 +21,9 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
+        </div>
+
+        <div class="col-sm-12 col-md-4 col-lg-4">
           <mat-form-field style="width: 100% ">
             <mat-label>Address</mat-label>
             <mat-select placeholder="Address" (selectionChange)="addressChanged(selectedAddressLine)" [(value)]="selectedAddressLine">
@@ -26,41 +32,53 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
+        </div>
+
+        <div class="col-sm-12 col-md-4 col-lg-4">
           <mat-form-field style="width: 100% ">
             <mat-label>State</mat-label>
             <input matInput disabled required placeholder="State" [value]="selectedAddressState" />
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
+        </div>
+
+        <div class="col-sm-12 col-md-3 col-lg-3">
           <mat-form-field style="width: 100% ">
             <mat-label>City</mat-label>
             <input matInput disabled required placeholder="City" [value]="selectedAddressCity" />
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
+        </div>
+
+        <div class="col-sm-12 col-md-3 col-lg-3">
           <mat-form-field style="width: 100% ">
             <mat-label>Pin Code</mat-label>
             <input matInput disabled required placeholder="Pin Code" [value]="selectedAddressPincode" />
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
+        </div>
+
+        <div class="col-sm-12 col-md-3 col-lg-3">
           <mat-form-field style="width: 100% ">
             <mat-label>GST #</mat-label>
             <input matInput disabled required placeholder="GST #" [value]="order.client.gstNumber" />
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
+        </div>
+
+        <div class="col-sm-12 col-md-3 col-lg-3">
           <mat-form-field style="width: 100% ">
             <mat-label>Contact #</mat-label>
             <input matInput disabled required placeholder="Contact #" [value]="order.client.phoneNumber" />
           </mat-form-field>
-        </mat-grid-tile>
-
-      </mat-grid-list>
-
-      <mat-divider></mat-divider>
+        </div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          ORDER
+        </mat-panel-title>
+        <mat-panel-description>
+          Item Details
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
       <table mat-table *ngIf="(order.type === 'bill')" [dataSource]="itemsDataSource" style="width:100%">
         <ng-container matColumnDef="name">
@@ -82,21 +100,21 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="hsnCode">
-          <th mat-header-cell *matHeaderCellDef style="width: 10%">HSN Code</th>
-          <td mat-cell *matCellDef="let element"> {{element.hsnCode}} </td>
-          <td mat-footer-cell *matFooterCellDef> </td>
+        <ng-container matColumnDef="hsnCode" class="hideInMobileView">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%" class="hideInMobileView">HSN Code</th>
+          <td mat-cell *matCellDef="let element" class="hideInMobileView"> {{element.hsnCode}} </td>
+          <td mat-footer-cell *matFooterCellDef class="hideInMobileView"> </td>
         </ng-container>
 
-        <ng-container matColumnDef="unit">
-          <th mat-header-cell *matHeaderCellDef style="width: 10%"> Unit </th>
-          <td mat-cell *matCellDef="let element"> {{element.unit}} </td>
-          <td mat-footer-cell *matFooterCellDef> </td>
+        <ng-container matColumnDef="unit" class="hideInMobileView">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%" class="hideInMobileView"> Unit </th>
+          <td mat-cell *matCellDef="let element" class="hideInMobileView"> {{element.unit}} </td>
+          <td mat-footer-cell *matFooterCellDef class="hideInMobileView"> </td>
         </ng-container>
 
         <ng-container matColumnDef="availableQuantity">
-          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right">Stock</th>
-          <td mat-cell *matCellDef="let element" style="text-align: right">
+          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: center">Stock</th>
+          <td mat-cell *matCellDef="let element" style="text-align: center">
             {{element.availableQuantity}}
           </td>
           <td mat-footer-cell *matFooterCellDef> </td>
@@ -139,37 +157,37 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="cgst">
-          <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right">CGST</th>
-          <td mat-cell *matCellDef="let element" style="text-align: right">
+        <ng-container matColumnDef="cgst" class="hideInMobileView">
+          <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right" class="hideInMobileView">CGST</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right" class="hideInMobileView">
             ({{ element.amount.cgst.percent }} %)
             <br /> {{ element.amount.cgst.value }}
           </td>
-          <td mat-footer-cell *matFooterCellDef style="text-align: right">
+          <td mat-footer-cell *matFooterCellDef style="text-align: right" class="hideInMobileView">
             <p>&#160;</p>
             <p>&#160;</p>
             <p>{{order.total.cgst}}</p>
           </td>
         </ng-container>
-        <ng-container matColumnDef="sgst">
-          <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right">SGST</th>
-          <td mat-cell *matCellDef="let element" style="text-align: right">
+        <ng-container matColumnDef="sgst" class="hideInMobileView">
+          <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right" class="hideInMobileView">SGST</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right" class="hideInMobileView">
             ({{ element.amount.sgst.percent }} %)
             <br /> {{ element.amount.sgst.value }}
           </td>
-          <td mat-footer-cell *matFooterCellDef style="text-align: right">
+          <td mat-footer-cell *matFooterCellDef style="text-align: right" class="hideInMobileView">
             <p>&#160;</p>
             <p>&#160;</p>
             <p>{{order.total.sgst}}</p>
           </td>
         </ng-container>
-        <ng-container matColumnDef="igst">
-          <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right">IGST</th>
-          <td mat-cell *matCellDef="let element" style="text-align: right">
+        <ng-container matColumnDef="igst" class="hideInMobileView">
+          <th mat-header-cell *matHeaderCellDef style="width: 7%; text-align: right" class="hideInMobileView">IGST</th>
+          <td mat-cell *matCellDef="let element" style="text-align: right" class="hideInMobileView">
             ({{ element.amount.igst.percent }} %)
             <br /> {{ element.amount.igst.value }}
           </td>
-          <td mat-footer-cell *matFooterCellDef style="text-align: right">
+          <td mat-footer-cell *matFooterCellDef style="text-align: right" class="hideInMobileView">
             <p>&#160;</p>
             <p>&#160;</p>
             <p>{{order.total.igst }}</p>
@@ -216,21 +234,21 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="hsnCode">
-          <th mat-header-cell *matHeaderCellDef style="width: 10%">HSN Code</th>
-          <td mat-cell *matCellDef="let element"> {{element.hsnCode}} </td>
-          <td mat-footer-cell *matFooterCellDef> </td>
+        <ng-container matColumnDef="hsnCode" class="hideInMobileView">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%" class="hideInMobileView">HSN Code</th>
+          <td mat-cell *matCellDef="let element" class="hideInMobileView"> {{element.hsnCode}} </td>
+          <td mat-footer-cell *matFooterCellDef class="hideInMobileView"> </td>
         </ng-container>
 
-        <ng-container matColumnDef="unit">
-          <th mat-header-cell *matHeaderCellDef style="width: 10%"> Unit </th>
-          <td mat-cell *matCellDef="let element"> {{element.unit}} </td>
-          <td mat-footer-cell *matFooterCellDef> </td>
+        <ng-container matColumnDef="unit" class="hideInMobileView">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%" class="hideInMobileView"> Unit </th>
+          <td mat-cell *matCellDef="let element" class="hideInMobileView"> {{element.unit}} </td>
+          <td mat-footer-cell *matFooterCellDef class="hideInMobileView"> </td>
         </ng-container>
 
         <ng-container matColumnDef="availableQuantity">
-          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: right">Stock</th>
-          <td mat-cell *matCellDef="let element" style="text-align: right">
+          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: center">Stock</th>
+          <td mat-cell *matCellDef="let element" style="text-align: center">
             {{element.availableQuantity}}
           </td>
           <td mat-footer-cell *matFooterCellDef> </td>
@@ -279,34 +297,46 @@
         <tr mat-footer-row *matFooterRowDef="itemChallanColumns"></tr>
       </table>
 
-      <mat-grid-list cols="2" rowHeight="7:1">
-        <mat-grid-tile>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          ACTIONS
+        </mat-panel-title>
+        <mat-panel-description>
+          Payment Details, Errors & Progress Actions.
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
           <mat-form-field style="width: 100% ">
             <mat-label>Payment Given</mat-label>
             <input matInput required type="number" placeholder="Payment Given" [ngModel]="order.total.paymentGiven"
               (ngModelChange)="calculateTotal(order.total.transportCharges, $event)" />
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6">
           <mat-form-field style="width: 100% ">
             <mat-label>Payment Left</mat-label>
             <input matInput disabled required placeholder="Payment Left" [value]="order.total.paymentLeft" />
           </mat-form-field>
-        </mat-grid-tile>
-      </mat-grid-list>
-
-
-      <ul style="list-style-type: none; color: red">
-        <li *ngFor="let message of errorMessage">
-          <mat-icon>error</mat-icon> {{message}}
-        </li>
-      </ul>
-
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="accent" (click)="createBill()">Generate</button>
-      <button mat-raised-button color="disabled" (click)="close()">Cancel</button>
-
-    </mat-card-actions>
-  </mat-card>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <ul style="list-style-type: none; color: red">
+            <li *ngFor="let message of errorMessage">
+              <mat-icon>error</mat-icon> {{message}}
+            </li>
+          </ul>
+        </div>
+        <div class="col-es-12 col-sm-12 col-md-6 col-lg-6" style="text-align:center">
+          <button mat-raised-button color="accent" (click)="createBill()" style="width: 70%">Generate</button>
+        </div>
+        <div class="col-es-12 col-sm-12 col-md-6 col-lg-6" style="text-align:center">
+          <button mat-raised-button color="disabled" (click)="close()" style="width: 70%">Cancel</button>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>

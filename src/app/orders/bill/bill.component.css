@@ -1,0 +1,19 @@
+
+@media screen and (max-width: 480px) {
+  th.hideInMobileView {
+    visibility: hidden;
+    display: none;
+    width: 0%;
+  }
+
+  td.hideInMobileView {
+    visibility: hidden;
+    display: none;
+    width: 0%;
+  }
+
+  .mat-expansion-panel-body {
+    padding: 5px !important;
+  }
+}
+
