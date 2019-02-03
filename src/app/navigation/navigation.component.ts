@@ -24,7 +24,6 @@ export class NavigationComponent implements OnInit {
     this.authentication.isAuthenticated
       .subscribe(res => {
         this.isAuthenticated = res;
-        console.log(this.isAuthenticated, 'updated for nav bar');
         this.getUserDetails();
       })
   }

@@ -9,7 +9,7 @@ export class Authentication {
   private authService: AuthService;
   private validAccounts = [
     'sagargudka@gmail.com',
-    'mit721996@gail.com',
+    'mit721996@gmail.com',
   ];
 
   public isAuthenticated: BehaviorSubject<Boolean>;

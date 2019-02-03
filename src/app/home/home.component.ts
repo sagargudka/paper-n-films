@@ -18,7 +18,6 @@ export class HomeComponent implements OnInit {
     this.authenication.isAuthenticated
       .subscribe(res => {
         this.isAuthenticated = res;
-        console.log(this.isAuthenticated, 'updated for home');
       })
   }
 
