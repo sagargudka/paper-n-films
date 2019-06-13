@@ -7,8 +7,8 @@
     <mat-card-content>
       <mat-form-field style="width: 100% ">
         <mat-label>Client Name</mat-label>
-        <input *ngIf="editMode == false" matInput required placeholder="Client Name" [(ngModel)]="client.name" />
-        <mat-select *ngIf="editMode == true" (selectionChange)="selectionChanged($event)">
+        <input *ngIf="!editMode" matInput required placeholder="Client Name" [(ngModel)]="client.name" />
+        <mat-select *ngIf="editMode" (selectionChange)="selectionChanged($event)">
           <mat-option *ngFor="let client of existingClients" [value]="client">
             {{client.name}}
           </mat-option>
@@ -54,8 +54,8 @@
         <input matInput required placeholder="Contact #" [(ngModel)]="client.phoneNumber" />
       </mat-form-field>
       <mat-card-actions>
-        <button *ngIf="editMode == false" mat-raised-button color="accent" (click)="createCustomer()">Generate</button>
-        <button *ngIf="editMode == true" mat-raised-button color="accent" (click)="editCustomer()">Edit</button>
+        <button *ngIf="!editMode" mat-raised-button color="accent" (click)="createCustomer()">Generate</button>
+        <button *ngIf="editMode" mat-raised-button color="accent" (click)="editCustomer()">Edit</button>
         <button mat-raised-button color="disabled" (click)="close()">Cancel</button>
       </mat-card-actions>
     </mat-card-content>
