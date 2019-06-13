@@ -70,4 +70,18 @@ export class NavigationComponent implements OnInit {
       }
     });
   }
+
+  editCustomerDialog() {
+    let dialogRef = this.dialog.open(CustomerComponent, {
+      data: { editMode: true },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.snackBar.open(result, 'Edit Customer successfully done', {
+          duration: 3000
+        });
+      }
+    });
+  }
 }

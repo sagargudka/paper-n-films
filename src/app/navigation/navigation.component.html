@@ -3,8 +3,8 @@
   <a class="navbar-brand" href="#">
     <img src="assets/pnf-logo.png" width="80" height="30" class="d-inline-block align-top" alt=""> Paper N Films
   </a>
-  <button class="navbar-toggler" type="button" (click)="getUserDetails()" data-toggle="collapse" data-target="#navbarText"
-    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" (click)="getUserDetails()" data-toggle="collapse"
+    data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
@@ -18,7 +18,7 @@
           <a class="dropdown-item" (click)="addCustomerDialog()">
             <mat-icon>add</mat-icon> New Customer
           </a>
-          <a class="dropdown-item">
+          <a class="dropdown-item" (click)="editCustomerDialog()">
             <mat-icon>edit</mat-icon> Edit Customer
           </a>
         </div>
