@@ -5,15 +5,26 @@
     </mat-card-header>
 
     <mat-card-content>
-      <mat-form-field style="width: 100% ">
-        <mat-label>Client Name</mat-label>
-        <input *ngIf="!editMode" matInput required placeholder="Client Name" [(ngModel)]="client.name" />
-        <mat-select *ngIf="editMode" (selectionChange)="selectionChanged($event)">
-          <mat-option *ngFor="let client of existingClients" [value]="client">
-            {{client.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <mat-grid-list cols="2" rowHeight="4:1">
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Client Name</mat-label>
+            <input *ngIf="!editMode" matInput required placeholder="Client Name" [(ngModel)]="client.name" />
+            <mat-select *ngIf="editMode" (selectionChange)="selectionChanged($event)">
+              <mat-option *ngFor="let client of existingClients" [value]="client">
+                {{client.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Contact Name</mat-label>
+            <input matInput placeholder="Contact Name" [(ngModel)]="client.contactName" />
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
       <table mat-table [dataSource]="client.address" style="width:100%">
         <ng-container matColumnDef="addressLine">
           <th mat-header-cell *matHeaderCellDef style="width: 40%">Address Line</th>
@@ -45,13 +56,40 @@
         <tr mat-header-row *matHeaderRowDef="addressColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: addressColumns;"></tr>
       </table>
-      <mat-form-field style="width: 100% ">
-        <mat-label>GST #</mat-label>
-        <input matInput required placeholder="GST #" [(ngModel)]="client.gstNumber" />
-      </mat-form-field>
-      <mat-form-field style="width: 100% ">
+      <mat-grid-list cols="4" rowHeight="3:1">
+        <mat-grid-tile>
+          <mat-form-field style="width: 100%">
+            <mat-label>GST #</mat-label>
+            <input matInput required placeholder="GST #" [(ngModel)]="client.gstNumber" />
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100%">
+            <mat-label>VAT #</mat-label>
+            <input matInput placeholder="VAT #" [(ngModel)]="client.vat" />
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100%">
+            <mat-label>PAN</mat-label>
+            <input matInput placeholder="PAN" [(ngModel)]="client.pan" />
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100%">
+            <mat-label>TIN</mat-label>
+            <input matInput placeholder="TIN" [(ngModel)]="client.tin" />
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+      <mat-form-field style="width: 100%">
         <mat-label>Contact</mat-label>
         <input matInput required placeholder="Contact #" [(ngModel)]="client.phoneNumber" />
+      </mat-form-field>
+      <mat-form-field style="width: 100%">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" [(ngModel)]="client.email" />
       </mat-form-field>
       <mat-card-actions>
         <button *ngIf="!editMode" mat-raised-button color="accent" (click)="createCustomer()">Generate</button>

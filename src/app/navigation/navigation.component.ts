@@ -59,7 +59,9 @@ export class NavigationComponent implements OnInit {
 
   addCustomerDialog(): void {
     let dialogRef = this.dialog.open(CustomerComponent, {
-      data: null
+      data: null,
+      height: '1000px',
+      width: '1000px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

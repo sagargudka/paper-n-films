@@ -14,6 +14,11 @@ export class CustomerComponent implements OnInit {
   existingClients: Array<Client>;
   client: Client = {
     name: '',
+    contactName: '',
+    tin: '',
+    pan: '',
+    vat: '',
+    email: '',
     gstNumber: '',
     address: [
       { addressLine: '', state: '', city: '', pincode: '' },
@@ -38,7 +43,6 @@ export class CustomerComponent implements OnInit {
 
     this.pnfApiService.getClients()
       .subscribe(res => {
-        console.log(res);
         this.existingClients = res;
       })
   }
@@ -46,8 +50,6 @@ export class CustomerComponent implements OnInit {
   ngOnInit() { }
 
   createCustomer() {
-    console.log(this.client);
-
     let index = _.findIndex(
       this.client.address,
       address => address.addressLine === ''
@@ -71,6 +73,7 @@ export class CustomerComponent implements OnInit {
       this.client.address.splice(index, this.client.address.length - index);
     }
 
+    console.log(this.client);
     this.pnfApiService.editClient(this.client).subscribe(res => {
       console.log(res);
       this.dialogRef.close(`Client ${this.client.name} successfully edited`);
@@ -79,6 +82,11 @@ export class CustomerComponent implements OnInit {
 
   selectionChanged(event) {
     this.client = event.value;
+    this.client.contactName = this.client.contactName || '';
+    this.client.vat = this.client.vat || '';
+    this.client.tin = this.client.tin || '';
+    this.client.pan = this.client.pan || '';
+    this.client.email = this.client.email || '';
   }
 
   close() {

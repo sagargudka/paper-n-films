@@ -129,7 +129,12 @@ export interface Address {
 export interface Client {
   id?: string;
   name: string;
+  contactName?: string;
   address: Array<Address>;
   gstNumber: string;
+  vat?: string;
+  tin?: string;
+  pan?: string;
   phoneNumber?: string;
+  email?: string;
 }
