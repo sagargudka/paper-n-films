@@ -4,6 +4,8 @@ import { Order } from '../../models/pnf-api-model';
 import * as _ from 'underscore';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import * as moment from 'moment';
+import saveAs from 'save-as';
+import { Buffer } from 'buffer';
 
 @Component({
   selector: 'app-orderbook',
@@ -34,7 +36,6 @@ export class OrderbookComponent implements OnInit {
 
   constructor(private pnfApiService: PnfApiService) {
     this.pnfApiService.getOrders().subscribe(res => {
-      console.log(res);
       this.originalOrderSource = res;
 
       _.each(res, order => {
@@ -103,5 +104,17 @@ export class OrderbookComponent implements OnInit {
     this.orderDataSource = new MatTableDataSource<Order>(newSource);
     this.orderDataSource.paginator = this.paginator;
   }
-  ngOnInit() { }
+  ngOnInit() {}
+
+  download(id) {
+    this.pnfApiService.downloadBill(id).subscribe(res => {
+      if (res.err) {
+        console.log(res);
+      } else {
+        const buff = new Buffer(res.data.pdf, 'base64');
+        // let text = buff.toString('ascii');
+        saveAs(new Blob([buff]), `${id}.pdf`);
+      }
+    });
+  }
 }

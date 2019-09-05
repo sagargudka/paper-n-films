@@ -7,7 +7,7 @@ import { Item, Client, Order } from '../models/pnf-api-model';
 export class PnfApiService {
   apiUrl: string = 'https://glacial-tor-53820.herokuapp.com';
   //'https://glacial-tor-53820.herokuapp.com'; //'http://localhost:5000'; // "http://192.168.1.106:5000";
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getItems(): Observable<Array<Item>> {
     return this.http.get<Array<Item>>(`${this.apiUrl}/items`);
@@ -42,5 +42,9 @@ export class PnfApiService {
 
   getOrders(): Observable<Array<Order>> {
     return this.http.get<Array<Order>>(`${this.apiUrl}/orders`);
+  }
+
+  downloadBill(id): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/download?id=${id}`);
   }
 }

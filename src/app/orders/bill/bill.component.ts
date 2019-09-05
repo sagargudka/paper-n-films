@@ -54,7 +54,9 @@ export class BillComponent implements OnInit {
     }
   ];
 
-  addressList: Array<Address> = [{ state: '', addressLine: '', city: '', pincode: '' }];
+  addressList: Array<Address> = [
+    { state: '', addressLine: '', city: '', pincode: '' }
+  ];
   selectedAddressLine = '';
   selectedAddressState = '';
   selectedAddressCity = '';
@@ -145,9 +147,8 @@ export class BillComponent implements OnInit {
 
     this.filteredClientList = this.clientCtrl.valueChanges.pipe(
       startWith(''),
-      map(
-        client =>
-          client ? this.filterClients(client) : this.clientList.slice()
+      map(client =>
+        client ? this.filterClients(client) : this.clientList.slice()
       )
     );
   }
@@ -197,7 +198,7 @@ export class BillComponent implements OnInit {
         item.basePrice,
         item.quantity,
         this.selectedAddressState.toUpperCase() !==
-        this.vendorState.toUpperCase(),
+          this.vendorState.toUpperCase(),
         this.order.type === 'bill'
       );
     });
@@ -217,7 +218,7 @@ export class BillComponent implements OnInit {
       element.basePrice,
       element.quantity,
       this.selectedAddressState.toUpperCase() !==
-      this.vendorState.toUpperCase(),
+        this.vendorState.toUpperCase(),
       this.order.type === 'bill'
     );
     this.calculateTotal(
@@ -243,7 +244,7 @@ export class BillComponent implements OnInit {
       item.basePrice,
       item.quantity,
       this.selectedAddressState.toUpperCase() !==
-      this.vendorState.toUpperCase(),
+        this.vendorState.toUpperCase(),
       this.order.type === 'bill'
     );
     this.calculateTotal(
@@ -312,9 +313,9 @@ export class BillComponent implements OnInit {
       if (res.err) {
         this.errorMessage = res.err;
       } else {
-        const buff = new Buffer(res.data.pdf, 'base64');
+        // const buff = new Buffer(res.data.pdf, 'base64');
         // let text = buff.toString('ascii');
-        saveAs(new Blob([buff]), `${this.order.id}.pdf`);
+        // saveAs(new Blob([buff]), `${this.order.id}.pdf`);
         this.dialogRef.close(`Order ${this.order.id} successfully created`);
       }
     });
