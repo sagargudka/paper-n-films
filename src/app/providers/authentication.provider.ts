@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AuthService, GoogleLoginProvider, SocialUser } from 'angular-6-social-login';
+import {
+  AuthService,
+  GoogleLoginProvider,
+  SocialUser
+} from 'angular-6-social-login';
 import { BehaviorSubject } from 'rxjs';
-
 
 @Injectable()
 export class Authentication {
@@ -10,6 +13,8 @@ export class Authentication {
   private validAccounts = [
     'sagargudka@gmail.com',
     'mit721996@gmail.com',
+    'pnf7772@gmail.com',
+    'pb7772@gmail.com'
   ];
 
   public isAuthenticated: BehaviorSubject<Boolean>;
@@ -19,9 +24,9 @@ export class Authentication {
   }
 
   public getImage(): String {
-    return this.credentials ?
-      this.credentials.image :
-      'https://static.thenounproject.com/png/630728-200.png';
+    return this.credentials
+      ? this.credentials.image
+      : 'https://static.thenounproject.com/png/630728-200.png';
   }
 
   public constructor(authService: AuthService) {
@@ -37,18 +42,20 @@ export class Authentication {
       this.credentials.token = data.token;
       this.isAuthenticated = new BehaviorSubject(true);
       // this.isAuthenticated.next(true);
-
     } else {
       this.credentials = null;
       this.isAuthenticated = new BehaviorSubject(false);
     }
-
   }
 
   public async authenticate() {
-    let userData = await this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
+    let userData = await this.authService.signIn(
+      GoogleLoginProvider.PROVIDER_ID
+    );
 
-    this.credentials = this.validAccounts.includes(userData.email) ? userData : null;
+    this.credentials = this.validAccounts.includes(userData.email)
+      ? userData
+      : null;
     if (this.credentials) {
       sessionStorage.setItem('loginData', JSON.stringify(this.credentials));
       this.isAuthenticated.next(true);
