@@ -7,7 +7,12 @@
     <mat-card-content>
       <mat-form-field style="width: 100% ">
         <mat-label>Item Name</mat-label>
-        <input matInput required placeholder="Item Name" [(ngModel)]="item.name" />
+        <input *ngIf="!isEditMode" matInput required placeholder="Item Name" [(ngModel)]="item.name" />
+        <mat-select *ngIf="isEditMode" (selectionChange)="selectionItemChanged($event)">
+          <mat-option *ngFor="let item of itemList" [value]="item">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field style="width: 100% ">
@@ -51,7 +56,7 @@
         <mat-grid-tile>
           <mat-form-field style="width: 100% ">
             <mat-label>Quantity</mat-label>
-            <input matInput type="number" placeholder="Quantity" [(ngModel)]="item.quantity" />
+            <input matInput type="number" placeholder="Quantity" [disabled]="isEditMode" [(ngModel)]="item.quantity" />
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -60,13 +65,19 @@
             <input matInput type="number" placeholder="Minimum Stock To Keep" [(ngModel)]="item.thresholdUnit" />
           </mat-form-field>
         </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field style="width: 100% ">
+            <mat-label>Unit</mat-label>
+            <input matInput placeholder="Unit" [(ngModel)]="item.unit" />
+          </mat-form-field>
+        </mat-grid-tile>
       </mat-grid-list>
-
-
 
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="accent" (click)="add()">Add</button>
+      <button *ngIf="!isEditMode" mat-raised-button color="accent" (click)="add()">Add</button>
+      <button *ngIf="isEditMode" mat-raised-button color="accent" (click)="edit()">Edit</button>
+      
       <button mat-raised-button color="disabled" (click)="close()">Cancel</button>
     </mat-card-actions>
   </mat-card>

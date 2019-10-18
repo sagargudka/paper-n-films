@@ -10,6 +10,8 @@ import { Item } from "../../models/pnf-api-model";
   styleUrls: ["./item.component.css"]
 })
 export class ItemComponent implements OnInit {
+  itemList: Array<Item>;
+  isEditMode = false;
   item: Item = {
     basePrice: 0,
     type: "product",
@@ -22,32 +24,49 @@ export class ItemComponent implements OnInit {
     unit: ""
   };
   action: string = "Add Item";
-  isfieldEditable: Boolean = true;
 
   itemTypes = ["product", "service"];
   taxSlabs = [5, 12, 18, 28];
   constructor(
     private pnfApiService: PnfApiService,
     public dialogRef: MatDialogRef<ItemComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Item
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     if (data) {
-      this.item = data;
       this.action = "Edit Item";
-      this.isfieldEditable = false;
+      this.isEditMode = data.isEditMode;
     }
   }
 
-  ngOnInit() {}
+  selectionItemChanged(event) {
+    this.item = event.value;
+  }
+
+  ngOnInit() {
+    this.pnfApiService.getItems()
+      .subscribe(items => {
+      this.itemList = items;
+    });
+  }
 
   add() {
     this.pnfApiService
       .addItem(this.item)
       .subscribe(
         res =>
-          this.dialogRef.close(`${res.name} stock was successfully added.`),
+          this.dialogRef.close(`${res.name} item was successfully added.`),
         err => this.dialogRef.close(err.error)
       );
+  }
+
+  edit() {
+    this.pnfApiService
+    .editItem(this.item)
+    .subscribe(
+      res =>
+        this.dialogRef.close(`${res.name} item was successfully edited.`),
+      err => this.dialogRef.close(err.error)
+    );
   }
 
   close() {

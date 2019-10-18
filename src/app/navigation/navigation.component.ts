@@ -57,6 +57,23 @@ export class NavigationComponent implements OnInit {
     });
   }
 
+  editItemDialog(): void {
+    let dialogRef = this.dialog.open(ItemComponent, {
+      // width: "500px",
+      data: {
+        isEditMode: true,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.snackBar.open(result, 'Edit Item', {
+          duration: 3000
+        });
+      }
+    });
+  }
+
   addCustomerDialog(): void {
     let dialogRef = this.dialog.open(CustomerComponent, {
       data: null,

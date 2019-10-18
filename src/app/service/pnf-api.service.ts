@@ -24,6 +24,10 @@ export class PnfApiService {
     return this.http.post<any>(`${this.apiUrl}/items`, item);
   }
 
+  editItem(item: Item): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/items/${item.id}`, item);
+  }
+
   getClients(): Observable<Array<Client>> {
     return this.http.get<Array<Client>>(`${this.apiUrl}/clients`);
   }
