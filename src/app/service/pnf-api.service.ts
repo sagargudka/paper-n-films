@@ -3,14 +3,22 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Item, Client, Order } from '../models/pnf-api-model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PnfApiService {
   apiUrl: string = 'https://glacial-tor-53820.herokuapp.com';
   //'https://glacial-tor-53820.herokuapp.com'; //'http://localhost:5000'; // "http://192.168.1.106:5000";
-  constructor(private http: HttpClient) {}
+  
+  itemList: Array<Item> = [];
+  constructor(private http: HttpClient) {
+    this.getItems();
+  }
 
-  getItems(): Observable<Array<Item>> {
-    return this.http.get<Array<Item>>(`${this.apiUrl}/items`);
+  getItems(): void {
+    this.http.get<Array<Item>>(`${this.apiUrl}/items`)
+      .toPromise()
+      .then(res => {
+        this.itemList = res;
+      })
   }
 
   addStock(item: { id?: string; quantity?: number }): Observable<any> {

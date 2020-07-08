@@ -43,10 +43,8 @@ export class ItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pnfApiService.getItems()
-      .subscribe(items => {
-      this.itemList = items;
-    });
+    this.pnfApiService.getItems();
+    this.itemList = this.pnfApiService.itemList;
   }
 
   add() {
@@ -79,6 +77,7 @@ export class ItemComponent implements OnInit {
   templateUrl: "./add-stock.component.html",
   styleUrls: ["./item.component.css"]
 })
+
 export class AddStockComponent implements OnInit {
   itemList: Array<{ id: string; name: string }>;
   item: { id: string; quantity: number };
@@ -94,13 +93,11 @@ export class AddStockComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pnfApiService.getItems().subscribe(items => {
-      this.itemList = _.map(items, item => {
-        return {
-          id: item.id,
-          name: item.name
-        };
-      });
+    this.itemList = _.map(this.pnfApiService.itemList, item => {
+      return {
+        id: item.id,
+        name: item.name
+      };
     });
   }
 

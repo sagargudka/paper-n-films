@@ -4,6 +4,7 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { BillComponent } from '../orders/bill/bill.component';
 import { OrderbookComponent } from '../orders/orderbook/orderbook.component';
 import { Authentication } from '../providers/authentication.provider';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,8 @@ import { Authentication } from '../providers/authentication.provider';
 })
 export class HomeComponent implements OnInit {
   isAuthenticated: Boolean = false;
+  refreshItems = moment().unix();
+
   constructor(public dialog: MatDialog, public snackBar: MatSnackBar, private authenication: Authentication) { }
 
   ngOnInit() {
@@ -29,6 +32,7 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.refreshItems = moment().unix();
         this.snackBar.open(result, 'Add Stock', {
           duration: 3000
         });
@@ -48,6 +52,7 @@ export class HomeComponent implements OnInit {
           duration: 3000
         });
       }
+      this.refreshItems = moment().unix();
     });
   }
 
@@ -63,7 +68,9 @@ export class HomeComponent implements OnInit {
           duration: 3000
         });
       }
+      this.refreshItems = moment().unix();
     });
+    
   }
 
   openOrderBook(): void {
@@ -71,5 +78,9 @@ export class HomeComponent implements OnInit {
       width: '1000px',
       data: null
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refreshItems = moment().unix();
+    })
   }
 }

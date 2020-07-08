@@ -41,10 +41,14 @@ export class CustomerComponent implements OnInit {
       this.editMode = false;
     }
 
+    this.getClients();
+  }
+
+  getClients() {
     this.pnfApiService.getClients()
       .subscribe(res => {
         this.existingClients = res;
-      })
+      });
   }
 
   ngOnInit() { }
@@ -61,6 +65,8 @@ export class CustomerComponent implements OnInit {
     this.pnfApiService.addClient(this.client).subscribe(res => {
       console.log(res);
       this.dialogRef.close(`Client ${this.client.name} successfully created`);
+
+      this.getClients();
     });
   }
 
@@ -73,10 +79,9 @@ export class CustomerComponent implements OnInit {
       this.client.address.splice(index, this.client.address.length - index);
     }
 
-    console.log(this.client);
     this.pnfApiService.editClient(this.client).subscribe(res => {
-      console.log(res);
       this.dialogRef.close(`Client ${this.client.name} successfully edited`);
+      this.getClients();
     });
   }
 

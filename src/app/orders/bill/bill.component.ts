@@ -28,30 +28,6 @@ export class BillComponent implements OnInit {
   filteredClientList: Observable<Array<Client>>;
   vendorState = 'Maharashtra';
   apiItemList: Item[] = [
-    {
-      name: 'Sagar',
-      description: 'Some decscription about the product',
-      unit: 'sheets',
-      id: '12345',
-      hsnCode: '123',
-      type: 'product',
-      basePrice: 50,
-      quantity: 5,
-      taxSlab: 5,
-      thresholdUnit: 1
-    },
-    {
-      name: 'Krina',
-      type: 'product',
-      description: 'abc',
-      unit: 'sheets',
-      id: '12345',
-      hsnCode: '123',
-      basePrice: 50,
-      quantity: 6,
-      taxSlab: 12,
-      thresholdUnit: 1
-    }
   ];
 
   addressList: Array<Address> = [
@@ -329,8 +305,6 @@ export class BillComponent implements OnInit {
     this.pnfApiService.getClients().subscribe(res => {
       this.clientList = res;
     });
-    this.pnfApiService.getItems().subscribe(res => {
-      this.apiItemList = res;
-    });
+    this.apiItemList = this.pnfApiService.itemList;
   }
 }

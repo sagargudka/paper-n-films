@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Item } from '../../models/pnf-api-model';
 import { PnfApiService } from '../../service/pnf-api.service';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
@@ -10,13 +10,20 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 })
 export class GridComponent implements OnInit {
   constructor(private service: PnfApiService) {}
+
+  @Input('refreshItems') set refreshItems(value) {
+    this.setItems();
+  }
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ngOnInit() {
+    setTimeout(() => this.setItems(), 500);
+  }
+
+  setItems() {
     this.dataSource.paginator = this.paginator;
-    this.service.getItems().subscribe(res => {
-      this.dataSource = new MatTableDataSource<Item>(res);
-      this.dataSource.paginator = this.paginator;
-    });
+    this.dataSource = new MatTableDataSource<Item>(this.service.itemList);
+    this.dataSource.paginator = this.paginator;
   }
 
   displayedColumns = ['hsnCode', 'name', 'description', 'quantity'];
@@ -30,29 +37,4 @@ export class GridComponent implements OnInit {
   }
 }
 
-const ELEMENT_DATA: Item[] = [
-  {
-    id: '1',
-    basePrice: 100,
-    name: 'Glossy Paper A4',
-    type: 'commodity',
-    hsnCode: '12345',
-    thresholdUnit: 100,
-    description: 'Glossy Paper A4 size',
-    quantity: 50,
-    taxSlab: 8,
-    unit: 'sheet'
-  },
-  {
-    id: '1',
-    basePrice: 100,
-    name: 'Glossy Paper A4',
-    type: 'commodity',
-    hsnCode: '12346',
-    thresholdUnit: 100,
-    description: 'Glossy Paper A4 size',
-    quantity: 500,
-    taxSlab: 8,
-    unit: 'sheet'
-  }
-];
+const ELEMENT_DATA: Item[] = [];
