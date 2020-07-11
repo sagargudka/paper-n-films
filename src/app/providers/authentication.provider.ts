@@ -14,7 +14,8 @@ export class Authentication {
     'sagargudka@gmail.com',
     'mit721996@gmail.com',
     'pnf7772@gmail.com',
-    'pb7772@gmail.com'
+    'pb7772@gmail.com',
+    'devals287@gmail.com'
   ];
 
   public isAuthenticated: BehaviorSubject<Boolean>;
